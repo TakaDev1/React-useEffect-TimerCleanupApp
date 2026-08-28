@@ -4,6 +4,7 @@ import DisplayCount from "./DisplayCount";
 const HandleTimer = () => {
   const [count, setCount] = useState<number>(0);
 
+  // タイマー管理
   useEffect(() => {
     const timer = setInterval(() => {
       setCount((prev) => prev + 1);
