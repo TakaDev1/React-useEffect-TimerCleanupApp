@@ -1,32 +1,119 @@
-# React + TypeScript + Vite
+# React-useEffect-TimerCleanupApp
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Reactの `useEffect` とクリーンアップ処理を使って、タイマーの開始・停止とコンポーネントのアンマウント時の処理を学習する練習用アプリです。
 
-Currently, two official plugins are available:
+## 📌 概要
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+タイマー処理に `setInterval` を使用し、1秒ごとにカウントを更新します。
 
-## React Compiler
+`useEffect` のクリーンアップ関数で `clearInterval` を実行することで、コンポーネントが不要になった際にタイマー処理を停止します。
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🛠 使用技術
 
-## Expanding the Oxlint configuration
+* TypeScript
+* React
+* Vite
+* Tailwind CSS
+* useState
+* useEffect
+* setInterval
+* clearInterval
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+## 📂 ディレクトリ構成
 
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+```text
+src/
+├── components/
+│   ├── HandleTimer.tsx
+│   └── DisplayCount.tsx
+├── App.tsx
+└── index.css
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+## ✨ 実装内容
+
+### 1. タイマーの状態管理
+
+`useState` を使用してカウントを管理します。
+
+```tsx
+const [count, setCount] = useState(0);
+```
+
+### 2. タイマー処理
+
+`setInterval` を使用して、1秒ごとにカウントを更新します。
+
+```tsx
+const timer = setInterval(() => {
+  setCount((prev) => prev + 1);
+}, 1000);
+```
+
+### 3. useEffectによるタイマー処理
+
+`useEffect` を使用してタイマーを開始します。
+
+```tsx
+useEffect(() => {
+  const timer = setInterval(() => {
+    setCount((prev) => prev + 1);
+  }, 1000);
+
+  return () => {
+    clearInterval(timer);
+  };
+}, []);
+```
+
+### 4. クリーンアップ処理
+
+`useEffect` のクリーンアップ関数で `clearInterval` を実行し、コンポーネントがアンマウントされたときにタイマーを停止します。
+
+```tsx
+return () => {
+  clearInterval(timer);
+};
+```
+
+これにより、コンポーネントが不要になった後もタイマーが実行され続けることを防ぎます。
+
+### 5. コンポーネントの役割分割
+
+タイマーの処理とカウントの表示を別々のコンポーネントに分割しています。
+
+* `HandleTimer.tsx` → タイマー処理を担当
+* `DisplayCount.tsx` → カウントの表示を担当
+
+## 🎯 学習ポイント
+
+* `useState` による状態管理
+* `useEffect` の基本的な使い方
+* `useEffect` のクリーンアップ処理
+* `setInterval` を使用した定期処理
+* `clearInterval` によるタイマー停止
+* コンポーネントのアンマウント
+* Propsを使った親子コンポーネント間のデータ受け渡し
+* コンポーネントの役割分割
+
+## 🚀 起動方法
+
+```bash
+npm install
+npm run dev
+```
+
+表示されたURLをブラウザで開いてください。
+
+## 📝 学習課題
+
+> `useEffect` を使用して1秒ごとにカウントを更新するタイマーを作成し、コンポーネントがアンマウントされたときにタイマーを停止する。
+
+### 条件
+
+1. `count` を `useState` で管理する
+2. `useEffect` を使用してタイマー処理を実装する
+3. `setInterval` を使用して1秒ごとにカウントを更新する
+4. クリーンアップ関数で `clearInterval` を実行する
+5. タイマー処理とカウント表示のコンポーネントを分割する
+6. ボタンや表示部分をTailwind CSSでスタイリングする
