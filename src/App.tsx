@@ -4,8 +4,10 @@ import HandleTimer from "./components/HandleTimer";
 function App() {
   return (
     <>
-      <h1>React-useEffect-TimerCleanupApp</h1>
-      <HandleTimer />
+      <div className="min-h-screen flex flex-col items-center justify-center">
+        <h1>React-useEffect-TimerCleanupApp</h1>
+        <HandleTimer />
+      </div>
     </>
   );
 }
